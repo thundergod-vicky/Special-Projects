@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pink: #ff6b9d;
+  --pink-light: #ffb3c6;
+  --pink-dark: #e91e63;
+  --rose: #ff85a2;
+  --cream: #fff0f5;
+  --white: #fff;
+  --gold: #ffd700;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Nunito', 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 50%, #ffd6e0 100%);
+  color: #5c2d42;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
