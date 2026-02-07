@@ -1029,9 +1029,9 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <CuteImage src={TEDDY_IMAGES[0]} alt="Teddy 1" className="teddy-small" />
-              <CuteImage src={TEDDY_IMAGES[1]} alt="Teddy 2" className="teddy-small" />
-              <CuteImage src={TEDDY_IMAGES[2]} alt="Teddy 3" className="teddy-small" />
+              <CuteImage src={OUR_PICS_URLS[0]} alt="Us 1" className="teddy-small" />
+              <CuteImage src={BOOK_COVER_IMAGE} alt="Us 2" className="teddy-small" />
+              <CuteImage src={OUR_PICS_URLS[4]} alt="Us 3" className="teddy-small" />
             </motion.div>
             <motion.div
               className="buttons-row"
@@ -1101,9 +1101,9 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <CuteImage src={TEDDY_IMAGES[0]} alt="Teddy" className="teddy-celebration" />
-              <CuteImage src={TEDDY_IMAGES[1]} alt="Teddy" className="teddy-celebration" />
-              <CuteImage src={TEDDY_IMAGES[2]} alt="Teddy" className="teddy-celebration" />
+              <CuteImage src={OUR_PICS_URLS[0]} alt="Us" className="teddy-celebration" />
+              <CuteImage src={BOOK_COVER_IMAGE} alt="Us" className="teddy-celebration" />
+              <CuteImage src={OUR_PICS_URLS[4]} alt="Us" className="teddy-celebration" />
             </motion.div>
             <motion.div
               className="message-box"
