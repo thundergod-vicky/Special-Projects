@@ -36,13 +36,649 @@
 .screen {
   position: relative;
   z-index: 1;
+  height: 100vh;
   min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 1rem 1.5rem;
   text-align: center;
+}
+
+/* ========== Home screen (Valentine's Week) – slider carousel ========== */
+.home-screen {
+  padding: 1rem 1rem 2rem;
+  overflow: visible;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top right, #8B5CF6, #EC4899);
+  border-radius: 0;
+}
+
+.home-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.35rem;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.home-sub {
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 1rem;
+}
+
+.home-slider {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.day-card-slider {
+  height: 420px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  cursor: default;
+}
+
+.day-card-slider.day-card--active {
+  cursor: pointer;
+}
+
+.day-card-slider .day-card-emoji {
+  font-size: 4rem;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+
+.day-card-slider .day-card-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--pink-dark);
+  margin: 0 0 0.4rem 0;
+  line-height: 1.2;
+}
+
+.day-card-slider.day-card--locked .day-card-title {
+  color: #888;
+}
+
+.day-card-slider .day-card-date {
+  font-size: 0.95rem;
+  color: #999;
+}
+
+.day-card-slider .day-card-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #aaa;
+  background: rgba(255,255,255,0.95);
+  padding: 3px 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.day-card-slider .day-card-enter {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--pink);
+}
+
+/* Click zones: left/right of slider go to prev/next (center = active card) */
+.home-slider-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(50% - 140px);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.home-slider-zone-left {
+  left: 0;
+}
+
+.home-slider-zone-right {
+  right: 0;
+}
+
+.home-slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background: none;
+  border: none;
+  font-size: 4rem;
+  font-family: inherit;
+  font-weight: bold;
+  opacity: 0.6;
+  transition: opacity 0.3s, transform 0.2s;
+  cursor: pointer;
+  z-index: 15;
+  padding: 1rem 0.75rem;
+  line-height: 1;
+  min-width: 56px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-slider-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.15);
+}
+
+.home-slider-prev {
+  left: 0.75rem;
+}
+
+.home-slider-next {
+  right: 0.75rem;
+}
+
+/* ========== Chocolate Day workflow ========== */
+.chocolate-screen {
+  background: linear-gradient(160deg, #3d2314 0%, #5c3317 25%, #8B4513 50%, #a0522d 75%, #6b4423 100%);
+  color: #fff;
+}
+
+.chocolate-back-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 248, 240, 0.95);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 228, 196, 0.4);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.chocolate-back-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+  transform: translateX(-2px);
+}
+
+.chocolate-float {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.chocolate-float-1 { top: 15%; left: 12%; }
+.chocolate-float-2 { top: 20%; right: 15%; }
+
+.chocolate-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  margin-bottom: 0.25rem;
+}
+
+.chocolate-date {
+  font-size: 1rem;
+  opacity: 0.95;
+  margin-bottom: 1.25rem;
+}
+
+.chocolate-intro-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  margin-bottom: 0.4rem;
+  max-width: 320px;
+}
+
+.chocolate-intro-sub {
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  opacity: 0.95;
+  margin-bottom: 2rem;
+}
+
+.chocolate-btn {
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5c3317;
+  background: linear-gradient(145deg, #f5deb3 0%, #ffe4c4 50%, #ffefd5 100%);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.chocolate-btn:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+
+.chocolate-btn-small {
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+}
+
+.chocolate-btn-outline {
+  background: transparent;
+  color: #ffe4c4;
+  border: 2px solid rgba(255,228,196,0.8);
+}
+
+.chocolate-btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Chocolate Meaning screen */
+.chocolate-heading {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.chocolate-meaning-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  width: 90%;
+  max-width: 560px;
+  margin: 0 auto 2rem;
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.chocolate-meaning-card p {
+  margin: 0 0 0.85rem 0;
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  line-height: 1.5;
+}
+
+.chocolate-meaning-card p:last-child {
+  margin-bottom: 0;
+}
+
+.chocolate-meaning-card strong {
+  color: #ffe4c4;
+}
+
+/* Chocolate Unwrap - box */
+.chocolate-unwrap-hint {
+  font-size: 1rem;
+  opacity: 0.95;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  max-width: 320px;
+}
+
+.chocolate-box-wrap {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  margin: 0 auto 1.5rem;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+
+.chocolate-box-wrap.opened {
+  cursor: default;
+}
+
+.chocolate-box-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chocolate-box-inner {
+  position: absolute;
+  inset: 14px;
+  background: linear-gradient(165deg, rgba(255,248,240,0.97) 0%, rgba(255,228,196,0.97) 100%);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  color: #5c3317;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+.chocolate-box-emoji {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.chocolate-box-message {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.chocolate-box-from {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Chocolate Messages screen */
+.chocolate-messages {
+  padding: 2rem 1.5rem;
+}
+
+.chocolate-message-card {
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.chocolate-message-image {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  border: 3px solid rgba(255,228,196,0.6);
+  object-fit: contain;
+}
+
+.chocolate-message-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+  max-width: 320px;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.chocolate-message-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.chocolate-message-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.chocolate-message-dots .dot.active {
+  background: #ffe4c4;
+  transform: scale(1.2);
+}
+
+.chocolate-message-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.chocolate-btn-prev {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 2px solid rgba(255,228,196,0.6);
+}
+
+.chocolate-btn-prev:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* Chocolate End screen */
+.chocolate-end {
+  justify-content: flex-start;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chocolate-end::-webkit-scrollbar {
+  display: none;
+}
+
+.chocolate-end-hearts {
+  font-size: 2.5rem;
+  margin-bottom: 0.4rem;
+  flex-shrink: 0;
+}
+
+.chocolate-end-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  margin-bottom: 0.25rem;
+  flex-shrink: 0;
+}
+
+.chocolate-end-sub {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  opacity: 0.95;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chocolate-end .chocolate-btn-outline {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* Sweet Memories frame on Chocolate End */
+.sweet-memories-frame {
+  width: 92%;
+  max-width: 440px;
+  margin: 0 auto 0.75rem;
+  padding: 1.25rem 1.5rem;
+  flex-shrink: 0;
+  background: linear-gradient(165deg, rgba(139, 90, 43, 0.5) 0%, rgba(101, 67, 33, 0.6) 50%, rgba(139, 90, 43, 0.5) 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  border: 1px solid rgba(210, 180, 140, 0.35);
+  position: relative;
+  overflow: visible;
+}
+
+.sweet-memories-frame::before,
+.sweet-memories-frame::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,228,196,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.sweet-memories-frame::before {
+  bottom: 10%;
+  left: -20px;
+}
+.sweet-memories-frame::after {
+  bottom: 10%;
+  right: -20px;
+}
+
+.sweet-memories-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255, 248, 240, 0.98);
+  text-align: center;
+  margin: 0 0 0.85rem 0;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.sweet-memories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.sweet-memories-card {
+  border-radius: 14px;
+  overflow: visible;
+  background: rgba(0,0,0,0.2);
+  border: 2px solid rgba(255, 228, 196, 0.4);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Closed state – same size as opened card */
+.sweet-memories-card-closed {
+  width: 100%;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(101, 67, 33, 0.7) 0%, rgba(139, 90, 43, 0.8) 100%);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sweet-memories-card-closed:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.sweet-memories-closed-icon {
+  font-size: 2.5rem;
+}
+
+.sweet-memories-closed-text {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 248, 240, 0.95);
+}
+
+/* Flip container – same size as image area */
+.sweet-memories-card-flip-wrap {
+  aspect-ratio: 1;
+  position: relative;
+  perspective: 800px;
+}
+
+.sweet-memories-card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.sweet-memories-card-front,
+.sweet-memories-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sweet-memories-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(165deg, rgba(139, 90, 43, 0.95) 0%, rgba(101, 67, 33, 0.98) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border: 2px solid rgba(255, 228, 196, 0.5);
+}
+
+.sweet-memories-elaborate-msg {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 248, 240, 0.98);
+  text-align: center;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.sweet-memories-card-img-wrap {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.sweet-memories-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sweet-memories-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.sweet-memories-card-msg {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255, 248, 240, 0.95);
+  text-align: center;
+  margin: 0;
+  padding: 0.35rem 0.25rem 0.4rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 
 /* ========== Intro screen ========== */

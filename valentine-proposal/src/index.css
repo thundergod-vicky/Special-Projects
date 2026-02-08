@@ -14,15 +14,26 @@
   --gold: #ffd700;
 }
 
+html {
+  /* Base layer: theme color so no white flash on transitions */
+  background: #ffe4ec;
+}
+
 html, body, #root {
+  height: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 body {
   font-family: 'Nunito', 'Quicksand', sans-serif;
   background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 50%, #ffd6e0 100%);
   color: #5c2d42;
+}
+
+#root {
+  background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 50%, #ffd6e0 100%);
 }
 
 button {

@@ -64,6 +64,12 @@ const OUR_PICS_URLS = orderedOurPicsUrls()
 // Cover image: 9.png (explicitly pick file 9 so it's always the red-sari portrait)
 const BOOK_COVER_IMAGE = OUR_PICS_URLS.find((u) => /\/9\.(png|jpg|jpeg)$/i.test(u)) ?? OUR_PICS_URLS[0]
 
+// Sweet Memories (Chocolate Day end screen): 4 images from src/chco day/
+const sweetMemoriesGlob = import.meta.glob('./chco day/*.{png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true, query: '?url', import: 'default' })
+const SWEET_MEMORIES_IMAGES = Object.entries(sweetMemoriesGlob)
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .map(([, url]) => url)
+
 // Book page data – each page has 3 images + 3 notes in grid (image/note alternating), then letter
 // Story notes – one narrative across the book (longer lines for a fuller look)
 const PAGE_NOTES = [
@@ -399,8 +405,34 @@ const PLEAD_MESSAGES = [
   "Please please please click on it! 🙏💕",
 ]
 
+const VALENTINE_WEEK_DAYS = [
+  { id: 'rose', label: 'Rose Day', emoji: '🌹', date: 'Feb 7', active: false },
+  { id: 'propose', label: 'Propose Day', emoji: '💍', date: 'Feb 8', active: true },
+  { id: 'chocolate', label: 'Chocolate Day', emoji: '🍫', date: 'Feb 9', active: true },
+  { id: 'teddy', label: 'Teddy Day', emoji: '🐻', date: 'Feb 10', active: false },
+  { id: 'promise', label: 'Promise Day', emoji: '🤝', date: 'Feb 11', active: false },
+  { id: 'hug', label: 'Hug Day', emoji: '🤗', date: 'Feb 12', active: false },
+  { id: 'kiss', label: 'Kiss Day', emoji: '💋', date: 'Feb 13', active: false },
+]
+
+const CHOCOLATE_MESSAGES = [
+  "You're not just the sweetest part of my life—you're the reason it tastes so good. 💕",
+  "With you, every ordinary day turns into something I want to savour. 🍫✨",
+  "If I could wrap one feeling in a box, it would be the way I feel when I'm with you.",
+  "I'd give you the last piece of chocolate, the last bite of everything good—because you're worth it. Always.",
+  `Some things get sweeter with time. You're proof of that, ${GIRL_NAME}. Thank you for being mine. 💕🍫`,
+]
+
+const CHOCOLATE_MESSAGE_IMAGES = [
+  'https://images.unsplash.com/photo-1511381939415-e44015466834?w=120&h=120&fit=crop',
+  'https://images.pexels.com/photos/360624/pexels-photo-360624.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop',
+  'https://images.pexels.com/photos/1666069/pexels-photo-1666069.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop',
+  'https://images.pexels.com/photos/157879/gift-jeans-fashion-pack-157879.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop',
+  'https://images.pexels.com/photos/1729797/pexels-photo-1729797.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop',
+]
+
 export default function App() {
-  const [screen, setScreen] = useState('intro')
+  const [screen, setScreen] = useState('home')
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [reasonsNoPosition, setReasonsNoPosition] = useState({ x: 0, y: 0 })
   const [confetti, setConfetti] = useState(false)
@@ -415,6 +447,11 @@ export default function App() {
   const [showLetter, setShowLetter] = useState(false)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showBookCover, setShowBookCover] = useState(true)
+  const [homeActiveIndex, setHomeActiveIndex] = useState(2) /* Chocolate Day = index 2 (base card) */
+  const [chocolateMessageIndex, setChocolateMessageIndex] = useState(0)
+  const [chocolateBoxOpen, setChocolateBoxOpen] = useState(false)
+  const [openedSweetMemories, setOpenedSweetMemories] = useState([false, false, false, false])
+  const [hoveredSweetMemory, setHoveredSweetMemory] = useState(null)
   const bookRef = useRef(null)
   const [bookSize, setBookSize] = useState(() => ({
     width: typeof window !== 'undefined' ? Math.min(window.innerWidth - 48, 520) : 480,
@@ -476,6 +513,14 @@ export default function App() {
     setTimeout(() => setScreen('reasons'), 3200)
   }, [])
 
+  const goToIntro = useCallback(() => setScreen('intro'), [])
+  const goToChocolate = useCallback(() => setScreen('chocolateIntro'), [])
+
+  const openDayFromHome = useCallback((dayId) => {
+    if (dayId === 'propose') goToIntro()
+    else if (dayId === 'chocolate') goToChocolate()
+  }, [goToIntro, goToChocolate])
+
   const openFindHearts = useCallback(() => {
     setGameSpots(createGameSpots())
     setHeartsFound(0)
@@ -492,6 +537,15 @@ export default function App() {
       return next
     })
   }, [])
+
+  const prevScreenRef = useRef(screen)
+  useEffect(() => {
+    if (screen === 'chocolateEnd' && prevScreenRef.current !== 'chocolateEnd') {
+      setOpenedSweetMemories([false, false, false, false])
+      setHoveredSweetMemory(null)
+    }
+    prevScreenRef.current = screen
+  }, [screen])
 
   useEffect(() => {
     if (screen === 'findHearts' && heartsFound === TOTAL_HEARTS) {
@@ -633,6 +687,533 @@ export default function App() {
       <Confetti active={confetti || letterConfetti} />
 
       <AnimatePresence mode="wait">
+        {screen === 'home' && (
+          <motion.div
+            key="home"
+            className="screen home-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.4 }}
+          >
+            <motion.h1
+              className="home-title"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.15 }}
+            >
+              💕 Valentine&apos;s Week 💕
+            </motion.h1>
+            <motion.p
+              className="home-sub"
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.25 }}
+            >
+              Choose a day to celebrate
+            </motion.p>
+            <div className="home-slider">
+              <div
+                className="home-slider-zone home-slider-zone-left"
+                role="button"
+                tabIndex={0}
+                aria-label="Previous card"
+                onClick={() => setHomeActiveIndex((prev) => (prev > 0 ? prev - 1 : prev))}
+                onKeyDown={(e) => e.key === 'Enter' && setHomeActiveIndex((prev) => (prev > 0 ? prev - 1 : prev))}
+              />
+              <div
+                className="home-slider-zone home-slider-zone-right"
+                role="button"
+                tabIndex={0}
+                aria-label="Next card"
+                onClick={() => setHomeActiveIndex((prev) => (prev < VALENTINE_WEEK_DAYS.length - 1 ? prev + 1 : prev))}
+                onKeyDown={(e) => e.key === 'Enter' && setHomeActiveIndex((prev) => (prev < VALENTINE_WEEK_DAYS.length - 1 ? prev + 1 : prev))}
+              />
+              {VALENTINE_WEEK_DAYS.map((day, i) => {
+                const isActive = i === homeActiveIndex
+                const sttRight = i - homeActiveIndex
+                const sttLeft = homeActiveIndex - i
+                let style = {
+                  position: 'absolute',
+                  left: '50%',
+                  top: 0,
+                  width: '280px',
+                  marginLeft: '-140px',
+                  transition: 'transform 0.5s, filter 0.5s, opacity 0.5s',
+                }
+                if (isActive) {
+                  style.transform = 'none'
+                  style.zIndex = 1
+                  style.filter = 'none'
+                  style.opacity = 1
+                } else if (i > homeActiveIndex) {
+                  const stt = sttRight
+                  style.transform = `translateX(${170 * stt}px) scale(${1 - 0.2 * stt}) perspective(16px) rotateY(-1deg)`
+                  style.zIndex = -stt
+                  style.filter = 'blur(5px)'
+                  style.opacity = stt > 2 ? 0 : 0.6
+                } else {
+                  const stt = sttLeft
+                  style.transform = `translateX(${-170 * stt}px) scale(${1 - 0.2 * stt}) perspective(16px) rotateY(1deg)`
+                  style.zIndex = -stt
+                  style.filter = 'blur(5px)'
+                  style.opacity = stt > 2 ? 0 : 0.6
+                }
+                return (
+                  <motion.div
+                    key={day.id}
+                    className={`day-card day-card-slider ${day.active ? 'day-card--active' : 'day-card--locked'}`}
+                    style={style}
+                    onClick={isActive && day.active ? () => openDayFromHome(day.id) : undefined}
+                    role={isActive && day.active ? 'button' : undefined}
+                    tabIndex={isActive && day.active ? 0 : -1}
+                    onKeyDown={isActive && day.active ? (e) => e.key === 'Enter' && openDayFromHome(day.id) : undefined}
+                  >
+                    <span className="day-card-emoji">{day.emoji}</span>
+                    <h2 className="day-card-title">{day.label}</h2>
+                    <span className="day-card-date">{day.date}</span>
+                    {!day.active && <span className="day-card-badge">Coming soon</span>}
+                    {isActive && day.active && (
+                      <span className="day-card-enter">Tap to open →</span>
+                    )}
+                  </motion.div>
+                )
+              })}
+            </div>
+            <button
+              type="button"
+              className="home-slider-btn home-slider-prev"
+              onClick={() => setHomeActiveIndex((prev) => (prev > 0 ? prev - 1 : prev))}
+              aria-label="Previous"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className="home-slider-btn home-slider-next"
+              onClick={() => setHomeActiveIndex((prev) => (prev < VALENTINE_WEEK_DAYS.length - 1 ? prev + 1 : prev))}
+              aria-label="Next"
+            >
+              ›
+            </button>
+          </motion.div>
+        )}
+
+        {/* ========== Chocolate Day workflow ========== */}
+        {screen === 'chocolateIntro' && (
+          <motion.div
+            key="chocolateIntro"
+            className="screen chocolate-screen chocolate-intro"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.45 }}
+          >
+            <button
+              type="button"
+              className="chocolate-back-btn"
+              onClick={() => setScreen('home')}
+              aria-label="Go back"
+            >
+              ← Back
+            </button>
+            <motion.div
+              className="chocolate-float chocolate-float-1"
+              animate={{ y: [0, -12, 0], rotate: [0, 5, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              🍫
+            </motion.div>
+            <motion.div
+              className="chocolate-float chocolate-float-2"
+              animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            >
+              🍬
+            </motion.div>
+            <motion.h1
+              className="chocolate-title"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            >
+              🍫 Chocolate Day 🍫
+            </motion.h1>
+            <motion.p
+              className="chocolate-date"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              February 9
+            </motion.p>
+            <motion.p
+              className="chocolate-intro-text"
+              initial={{ y: 15, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              You picked the sweetest day of the week...
+            </motion.p>
+            <motion.p
+              className="chocolate-intro-sub"
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.65 }}
+            >
+              Let&apos;s make it extra sweet 💕
+            </motion.p>
+            <motion.button
+              className="chocolate-btn"
+              onClick={() => setScreen('chocolateMeaning')}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.85 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Lets Eat Some Choclate Together
+            </motion.button>
+          </motion.div>
+        )}
+
+        {screen === 'chocolateMeaning' && (
+          <motion.div
+            key="chocolateMeaning"
+            className="screen chocolate-screen chocolate-meaning"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <button
+              type="button"
+              className="chocolate-back-btn"
+              onClick={() => setScreen('chocolateIntro')}
+              aria-label="Go back"
+            >
+              ← Back
+            </button>
+            <motion.h2
+              className="chocolate-heading"
+              initial={{ y: -15, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.15 }}
+            >
+              What is Chocolate Day?
+            </motion.h2>
+            <motion.div
+              className="chocolate-meaning-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <p>
+                Chocolate Day is all about sharing sweetness with the one who makes your world brighter. 🍫✨
+              </p>
+              <p>
+                It&apos;s not just about chocolates, but about the little moments, the warm smiles, and the love that makes everything feel special.
+              </p>
+              <p>
+                Today is a reminder to celebrate us — to sweeten our bond with love, care, and the countless memories we&apos;re creating together. Whether it&apos;s a box of chocolates, a soft hug, or a simple message from the heart, every little thing feels sweeter when it&apos;s with you.
+              </p>
+              <p>
+                You have this magical way of turning ordinary days into something beautiful, and life into something worth smiling about. 💫
+                Just like chocolate, you add warmth, comfort, and happiness to my life in ways words can barely explain.
+              </p>
+              <p>
+                Because you don&apos;t just make life sweeter, {GIRL_NAME}…
+                you are the sweetness in my life. 💕🍫
+              </p>
+            </motion.div>
+            <motion.button
+              className="chocolate-btn"
+              onClick={() => { setScreen('chocolateUnwrap'); setChocolateBoxOpen(false) }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Open my chocolate box 🍫
+            </motion.button>
+          </motion.div>
+        )}
+
+        {screen === 'chocolateUnwrap' && (
+          <motion.div
+            key="chocolateUnwrap"
+            className="screen chocolate-screen chocolate-unwrap"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <button
+              type="button"
+              className="chocolate-back-btn"
+              onClick={() => { setScreen('chocolateMeaning'); setChocolateBoxOpen(false) }}
+              aria-label="Go back"
+            >
+              ← Back
+            </button>
+            <motion.p
+              className="chocolate-unwrap-hint"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {chocolateBoxOpen ? 'So sweet! Hope it made you smile 💕🍫✨' : 'Tap the box to open it! 🎀'}
+            </motion.p>
+            <motion.div
+              className={`chocolate-box-wrap ${chocolateBoxOpen ? 'opened' : ''}`}
+              onClick={() => !chocolateBoxOpen && setChocolateBoxOpen(true)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => !chocolateBoxOpen && e.key === 'Enter' && setChocolateBoxOpen(true)}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 180 }}
+              whileTap={!chocolateBoxOpen ? { scale: 0.95 } : {}}
+            >
+              <img
+                src="https://images.pexels.com/photos/360624/pexels-photo-360624.jpeg?auto=compress&cs=tinysrgb&w=520&h=400&fit=crop"
+                alt="Chocolate gift box"
+                className="chocolate-box-image"
+              />
+              <motion.div
+                className="chocolate-box-inner"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={chocolateBoxOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                transition={{ delay: chocolateBoxOpen ? 0.4 : 0, duration: 0.4 }}
+              >
+                <span className="chocolate-box-emoji">🍫🍬💕</span>
+                <p className="chocolate-box-message">
+                  You don’t just make life sweeter—you are the sweetness in mine. 💕<br />
+                  This box is for you, but the real gift is every moment we share.<br />
+                  Happy Chocolate Day, {GIRL_NAME}. Here’s to us. 🍫✨<br />
+                  <span className="chocolate-box-from">— With all my love, {BOY_NAME}</span>
+                </p>
+              </motion.div>
+            </motion.div>
+            {chocolateBoxOpen && (
+              <motion.button
+                className="chocolate-btn"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                onClick={() => setScreen('chocolateMessages')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                More sweetness →
+              </motion.button>
+            )}
+          </motion.div>
+        )}
+
+        {screen === 'chocolateMessages' && (
+          <motion.div
+            key="chocolateMessages"
+            className="screen chocolate-screen chocolate-messages"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <button
+              type="button"
+              className="chocolate-back-btn"
+              onClick={() => setScreen('chocolateUnwrap')}
+              aria-label="Go back"
+            >
+              ← Back
+            </button>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={chocolateMessageIndex}
+                className="chocolate-message-card"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.35 }}
+              >
+                <img
+                  src={CHOCOLATE_MESSAGE_IMAGES[chocolateMessageIndex]}
+                  alt=""
+                  className="chocolate-message-image"
+                />
+                <p className="chocolate-message-text">
+                  {CHOCOLATE_MESSAGES[chocolateMessageIndex]}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+            <div className="chocolate-message-dots">
+              {CHOCOLATE_MESSAGES.map((_, i) => (
+                <span
+                  key={i}
+                  className={`dot ${i === chocolateMessageIndex ? 'active' : ''}`}
+                  aria-hidden
+                />
+              ))}
+            </div>
+            <div className="chocolate-message-actions">
+              {chocolateMessageIndex > 0 && (
+                <motion.button
+                  type="button"
+                  className="chocolate-btn chocolate-btn-small chocolate-btn-prev"
+                  onClick={() => setChocolateMessageIndex((i) => i - 1)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  ← Previous
+                </motion.button>
+              )}
+              {chocolateMessageIndex < CHOCOLATE_MESSAGES.length - 1 ? (
+                <motion.button
+                  type="button"
+                  className="chocolate-btn chocolate-btn-small"
+                  onClick={() => setChocolateMessageIndex((i) => i + 1)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Next 💕
+                </motion.button>
+              ) : (
+                <motion.button
+                  type="button"
+                  className="chocolate-btn"
+                  onClick={() => setScreen('chocolateEnd')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Continue →
+                </motion.button>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {screen === 'chocolateEnd' && (
+          <motion.div
+            key="chocolateEnd"
+            className="screen chocolate-screen chocolate-end"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <button
+              type="button"
+              className="chocolate-back-btn"
+              onClick={() => setScreen('chocolateMessages')}
+              aria-label="Go back"
+            >
+              ← Back
+            </button>
+            <motion.div
+              className="chocolate-end-hearts"
+              animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              🍫 💕 🍫
+            </motion.div>
+            <motion.h2
+              className="chocolate-end-title"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            >
+              Happy Chocolate Day, {GIRL_NAME}!
+            </motion.h2>
+            <motion.p
+              className="chocolate-end-sub"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45 }}
+            >
+              Thank you for being the sweetest part of my life 💕
+            </motion.p>
+            <motion.div
+              className="sweet-memories-frame"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <h3 className="sweet-memories-title">Sweet Memories</h3>
+              <div className="sweet-memories-grid">
+                {[
+                  { msg: "You try to act like dark chocolate , but you're still the cutest. 💕", elaborate: "You thought you could be all dark and mysterious like dark chocolate—but your sweetness always shines through. You're the cutest, and I wouldn't have it any other way. 💕" },
+                  { msg: 'My Milky Mist Baby🍫', elaborate: "You don't just add sweetness to my days; you turn the ordinary into something magical. Life with you is the kind of sweet I never get tired of. 🍫✨" },
+                  { msg: 'Hey you! My Dairy Milk Silk Girl 💋', elaborate: "I have so many favourites with you that it's impossible to pick one. Every memory we make becomes my new favourite. Here's to making more. ✨" },
+                  { msg: 'Here is My White Chocolate Princess💫', elaborate: "Every day with you feels like a new beginning. I can't wait for all the memories we'll make next. Here's to us—today, tomorrow, and always. 💫💕" },
+                ].map((item, i) => {
+                  const isOpen = openedSweetMemories[i]
+                  const isFlipped = hoveredSweetMemory === i
+                  return (
+                    <div
+                      key={i}
+                      className="sweet-memories-card"
+                      onMouseEnter={() => isOpen && setHoveredSweetMemory(i)}
+                      onMouseLeave={() => setHoveredSweetMemory(null)}
+                    >
+                      {!isOpen ? (
+                        <button
+                          type="button"
+                          className="sweet-memories-card-closed"
+                          onClick={() => setOpenedSweetMemories((prev) => {
+                            const next = [...prev]
+                            next[i] = true
+                            return next
+                          })}
+                          aria-label="Open memory"
+                        >
+                          <span className="sweet-memories-closed-icon">💕</span>
+                          <span className="sweet-memories-closed-text">Tap to open</span>
+                        </button>
+                      ) : (
+                        <>
+                          <div className="sweet-memories-card-flip-wrap">
+                            <div
+                              className="sweet-memories-card-flip-inner"
+                              style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+                            >
+                              <div className="sweet-memories-card-front">
+                                <div className="sweet-memories-card-img-wrap">
+                                  {SWEET_MEMORIES_IMAGES[i] ? (
+                                    <img src={SWEET_MEMORIES_IMAGES[i]} alt="" className="sweet-memories-img" />
+                                  ) : (
+                                    <div className="sweet-memories-placeholder">💕</div>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="sweet-memories-card-back">
+                                <p className="sweet-memories-elaborate-msg">{item.elaborate}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="sweet-memories-card-msg">{item.msg}</p>
+                        </>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </motion.div>
+            <motion.button
+              className="chocolate-btn chocolate-btn-outline"
+              onClick={() => { setScreen('home'); setChocolateMessageIndex(0); setChocolateBoxOpen(false) }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Back to Valentine&apos;s Week
+            </motion.button>
+          </motion.div>
+        )}
+
         {screen === 'intro' && (
           <motion.div
             key="intro"
