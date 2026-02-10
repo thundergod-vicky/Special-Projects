@@ -18,6 +18,17 @@ import {
   ChocolateEnd,
 } from './screens/ChocolateDay/index.js'
 import {
+  TeddyIntro,
+  TeddyMeet,
+  TeddyPhoto,
+  TeddyReal,
+  TeddyReveal,
+  TeddyTravelQuestion,
+  TeddyVerseGallery,
+  TeddyHop,
+  TeddyEnd,
+} from './screens/TeddyDay/index.js'
+import {
   ProposeIntro,
   FindHearts,
   Envelope,
@@ -45,7 +56,7 @@ export default function App() {
   const [showLetter, setShowLetter] = useState(false)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showBookCover, setShowBookCover] = useState(true)
-  const [homeActiveIndex, setHomeActiveIndex] = useState(2) /* Chocolate Day = index 2 (base card) */
+  const [homeActiveIndex, setHomeActiveIndex] = useState(3) /* Teddy Day = index 3 (base card) */
   const [chocolateMessageIndex, setChocolateMessageIndex] = useState(0)
   const [chocolateBoxOpen, setChocolateBoxOpen] = useState(false)
   const [openedSweetMemories, setOpenedSweetMemories] = useState([false, false, false, false])
@@ -113,11 +124,13 @@ export default function App() {
 
   const goToIntro = useCallback(() => setScreen('intro'), [])
   const goToChocolate = useCallback(() => setScreen('chocolateIntro'), [])
+  const goToTeddy = useCallback(() => setScreen('teddyIntro'), [])
 
   const openDayFromHome = useCallback((dayId) => {
     if (dayId === 'propose') goToIntro()
     else if (dayId === 'chocolate') goToChocolate()
-  }, [goToIntro, goToChocolate])
+    else if (dayId === 'teddy') goToTeddy()
+  }, [goToIntro, goToChocolate, goToTeddy])
 
   const openFindHearts = useCallback(() => {
     setGameSpots(createGameSpots())
@@ -330,6 +343,59 @@ export default function App() {
             hoveredSweetMemory={hoveredSweetMemory}
             setHoveredSweetMemory={setHoveredSweetMemory}
           />
+        )}
+
+        {screen === 'teddyIntro' && (
+          <TeddyIntro
+            onBack={() => setScreen('home')}
+            onNext={() => setScreen('teddyMeet')}
+          />
+        )}
+        {screen === 'teddyMeet' && (
+          <TeddyMeet
+            onBack={() => setScreen('teddyIntro')}
+            onRevealed={() => setScreen('teddyPhoto')}
+          />
+        )}
+        {screen === 'teddyPhoto' && (
+          <TeddyPhoto
+            onBack={() => setScreen('teddyMeet')}
+            onNext={() => setScreen('teddyReal')}
+          />
+        )}
+        {screen === 'teddyReal' && (
+          <TeddyReal
+            onBack={() => setScreen('teddyPhoto')}
+            onNext={() => setScreen('teddyReveal')}
+          />
+        )}
+        {screen === 'teddyReveal' && (
+          <TeddyReveal
+            onBack={() => setScreen('teddyMeet')}
+            onNext={() => setScreen('teddyTravelQuestion')}
+          />
+        )}
+        {screen === 'teddyTravelQuestion' && (
+          <TeddyTravelQuestion
+            onBack={() => setScreen('teddyReveal')}
+            onYes={() => setScreen('teddyVerseGallery')}
+          />
+        )}
+        {screen === 'teddyVerseGallery' && (
+          <TeddyVerseGallery
+            onBack={() => setScreen('teddyTravelQuestion')}
+            onNext={() => setScreen('teddyEnd')}
+            onHop={() => setScreen('teddyHop')}
+          />
+        )}
+        {screen === 'teddyHop' && (
+          <TeddyHop
+            onBack={() => setScreen('teddyVerseGallery')}
+            onNext={() => setScreen('teddyEnd')}
+          />
+        )}
+        {screen === 'teddyEnd' && (
+          <TeddyEnd onBackToHome={() => setScreen('home')} />
         )}
 
         {screen === 'intro' && (

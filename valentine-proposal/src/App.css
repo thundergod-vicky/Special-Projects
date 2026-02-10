@@ -512,6 +512,1202 @@
   margin-top: auto;
 }
 
+/* ========== Teddy Day workflow ========== */
+.teddy-screen {
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(165deg, #8B6914 0%, #A0522D 22%, #BC8F8F 45%, #DEB887 65%, #D2B48C 85%, #CD853F 100%);
+  color: #2c1810;
+}
+
+.teddy-day-intro {
+  align-items: center;
+}
+
+.teddy-intro-card {
+  width: 92%;
+  max-width: 420px;
+  padding: 1.75rem 1.5rem 2rem;
+  border-radius: 28px;
+  background: radial-gradient(circle at top left, rgba(255, 248, 240, 0.95), rgba(255, 228, 221, 0.96));
+  box-shadow:
+    0 18px 45px rgba(92, 52, 24, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(210, 180, 140, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.teddy-back-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(44, 24, 16, 0.9);
+  background: rgba(255, 248, 240, 0.85);
+  border: 1px solid rgba(139, 90, 43, 0.4);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.teddy-back-btn:hover {
+  background: rgba(255, 248, 240, 1);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.teddy-float {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.teddy-float-1 { top: 12%; left: 10%; }
+.teddy-float-2 { top: 18%; right: 12%; }
+
+.teddy-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+  font-weight: 800;
+  color: #2c1810;
+  text-shadow: 0 1px 4px rgba(255,248,240,0.8);
+  margin-bottom: 0.25rem;
+}
+
+.teddy-date {
+  font-size: 1rem;
+  color: rgba(44, 24, 16, 0.85);
+  margin-bottom: 1.25rem;
+}
+
+.teddy-intro-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  margin-bottom: 0.4rem;
+  max-width: 320px;
+  color: #2c1810;
+}
+
+.teddy-intro-sub {
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 2rem;
+}
+
+.teddy-btn {
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c1810;
+  background: linear-gradient(145deg, #FFE4E1 0%, #FFC0CB 50%, #FFB6C1 100%);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(139, 69, 19, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.teddy-btn:hover {
+  box-shadow: 0 8px 28px rgba(139, 69, 19, 0.35);
+}
+
+.teddy-btn-outline {
+  background: transparent;
+  color: #2c1810;
+  border: 2px solid rgba(44, 24, 16, 0.5);
+}
+
+.teddy-btn-outline:hover {
+  background: rgba(255, 248, 240, 0.4);
+}
+
+/* Teddy Meet – interactive reveal card */
+.teddy-meet-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 700;
+  color: #2c1810;
+  margin-bottom: 0.5rem;
+}
+
+.teddy-meet-hint {
+  font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+  color: rgba(44, 24, 16, 0.85);
+  margin-bottom: 1.5rem;
+}
+
+.teddy-meet-tap-again {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 248, 240, 0.95);
+  color: #b22222;
+  font-weight: 700;
+  font-size: 0.95em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: pulse-btn 1.4s ease-in-out infinite;
+}
+
+.teddy-reveal-card-wrap {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 1.5rem;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform 0.2s;
+}
+
+.teddy-reveal-card-wrap:hover {
+  transform: scale(1.02);
+}
+
+.teddy-reveal-card {
+  width: 100%;
+  height: 100%;
+  min-height: 290px;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.75rem 1.75rem;
+  position: relative;
+}
+
+.teddy-reveal-front {
+  background: linear-gradient(160deg, #D2691E 0%, #CD853F 40%, #DEB887 100%);
+  border: 3px solid rgba(139, 69, 19, 0.5);
+}
+
+.teddy-reveal-emoji {
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.teddy-reveal-avatar {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+.teddy-reveal-tap {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(44, 24, 16, 0.9);
+  margin: 0;
+}
+
+.teddy-reveal-back {
+  background: linear-gradient(160deg, #FFE4E1 0%, #FFC0CB 50%, #FFB6C1 100%);
+  border: 3px solid rgba(205, 92, 92, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+
+.teddy-reveal-cta {
+  margin-top: 1rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  background: rgba(255, 248, 240, 0.98);
+  color: #b22222;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.teddy-reveal-heart {
+  font-size: 3.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.teddy-reveal-you {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 0.3rem 0;
+}
+
+.teddy-reveal-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(44, 24, 16, 0.95);
+  margin: 0;
+}
+
+/* Teddy Reveal – main message */
+.teddy-reveal-hearts {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.95;
+}
+
+.teddy-reveal-message-box {
+  width: 92%;
+  max-width: 420px;
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(165deg, rgba(255, 248, 240, 0.95) 0%, rgba(255, 228, 221, 0.95) 100%);
+  border-radius: 24px;
+  box-shadow: 0 10px 36px rgba(139, 69, 19, 0.2), inset 0 1px 0 rgba(255,255,255,0.8);
+  border: 2px solid rgba(210, 180, 140, 0.6);
+}
+
+.teddy-reveal-headline {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.25rem, 3.2vw, 1.6rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.35;
+}
+
+.teddy-reveal-sub {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+}
+
+.teddy-reveal-extra {
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  color: rgba(44, 24, 16, 0.85);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Teddy travel question screen */
+.teddy-travel-question {
+  align-items: center;
+}
+
+.teddy-travel-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.5rem, 3.8vw, 2.2rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  max-width: 540px;
+}
+
+.teddy-travel-sub {
+  font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 1.75rem;
+  max-width: 480px;
+  text-align: center;
+}
+
+.teddy-travel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.teddy-travel-no-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.teddy-travel-no-btn--broken {
+  animation: teddyNoShatter 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes teddyNoShatter {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-6px) rotate(-6deg) scale(1.05);
+  }
+  100% {
+    transform: translateY(40px) rotate(12deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* TeddyVerse gallery – slider of teddy variants */
+.teddy-verse-gallery {
+  align-items: center;
+}
+
+.teddy-verse-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.5rem, 3.8vw, 2.2rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.teddy-verse-sub {
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+  text-align: center;
+}
+
+.teddy-verse-options {
+  display: flex;
+  gap: 1rem;
+  width: 98%;
+  max-width: 960px;
+  height: 360px;
+  margin-bottom: 2rem;
+}
+
+.teddy-verse-option {
+  flex: 1;
+  border-radius: 26px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(210, 180, 140, 0.6);
+  background: #000;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: flex 0.5s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.teddy-verse-option--active {
+  flex: 4;
+  transform: translateY(-8px);
+  filter: brightness(1);
+}
+
+.teddy-verse-option:not(.teddy-verse-option--active) {
+  filter: brightness(0.6);
+}
+
+.teddy-verse-flip {
+  position: absolute;
+  inset: 0;
+}
+
+.teddy-verse-face {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s ease;
+}
+
+.teddy-verse-face-front {
+  opacity: 1;
+}
+
+.teddy-verse-face-back {
+  opacity: 0;
+}
+
+.teddy-verse-option:hover .teddy-verse-face-front {
+  opacity: 0;
+}
+
+.teddy-verse-option:hover .teddy-verse-face-back {
+  opacity: 1;
+}
+
+.teddy-verse-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.teddy-verse-label {
+  position: relative;
+  z-index: 1;
+  padding: 0.6rem 0.9rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.teddy-verse-icon {
+  font-size: 1.35rem;
+}
+
+.teddy-verse-info {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.teddy-verse-main {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.teddy-verse-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.teddy-verse-option--active .teddy-verse-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teddy-verse-next-btn {
+  margin-top: 0.25rem;
+}
+
+.teddy-verse-hop-btn {
+  margin-top: 0.5rem;
+}
+
+.teddy-verse-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 1.5rem;
+  backdrop-filter: blur(6px);
+}
+
+.teddy-verse-modal {
+  background: radial-gradient(circle at top left, rgba(255, 248, 240, 0.82), rgba(255, 210, 210, 0.78));
+  border-radius: 24px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.3);
+  max-width: 780px;
+  width: 100%;
+  position: relative;
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.teddy-verse-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.teddy-verse-modal-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr);
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.teddy-verse-modal-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.teddy-verse-modal-flip {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.teddy-verse-modal-face {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s ease;
+}
+
+.teddy-verse-modal-face-front {
+  opacity: 1;
+}
+
+.teddy-verse-modal-face-back {
+  opacity: 0;
+}
+
+.teddy-verse-modal-flip:hover .teddy-verse-modal-face-front {
+  opacity: 0;
+}
+
+.teddy-verse-modal-flip:hover .teddy-verse-modal-face-back {
+  opacity: 1;
+}
+
+.teddy-verse-modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.teddy-verse-modal-hint {
+  font-size: 0.85rem;
+  color: rgba(44, 24, 16, 0.85);
+  text-align: center;
+}
+
+.teddy-verse-hop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  padding: 1.5rem;
+}
+
+.teddy-verse-hop-dialog {
+  background: radial-gradient(circle at top left, rgba(255, 248, 240, 0.96), rgba(255, 228, 221, 0.96));
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+  padding: 1.75rem 1.75rem 1.4rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.teddy-verse-hop-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2c1810;
+  margin-bottom: 0.5rem;
+}
+
+.teddy-verse-hop-text {
+  font-size: 0.95rem;
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 1.1rem;
+}
+
+.teddy-verse-modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem 0.25rem 0.25rem;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.teddy-verse-modal-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #2c1810;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.teddy-verse-modal-subtitle {
+  font-size: 0.95rem;
+  color: rgba(44, 24, 16, 0.9);
+  text-align: center;
+}
+
+.teddy-verse-modal-text {
+  font-size: 0.95rem;
+  color: rgba(44, 24, 16, 0.9);
+  margin-top: 0.25rem;
+  text-align: center;
+}
+
+.teddy-hop {
+  align-items: center;
+}
+
+.teddy-hop-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  max-width: 520px;
+}
+
+.teddy-hop-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.teddy-hop-text {
+  font-size: 0.95rem;
+  color: rgba(44, 24, 16, 0.9);
+  max-width: 520px;
+  text-align: center;
+}
+
+.teddy-hop-gallery {
+  width: 96%;
+  max-width: 720px;
+}
+
+.teddy-hop-options {
+  display: flex;
+  gap: 0.9rem;
+  width: 100%;
+  height: 320px;
+}
+
+.teddy-hop-option {
+  flex: 1;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(210, 180, 140, 0.6);
+  background: #000;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: flex 0.5s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.teddy-hop-option--active {
+  flex: 3.4;
+  transform: translateY(-6px);
+  filter: brightness(1);
+}
+
+.teddy-hop-option:not(.teddy-hop-option--active) {
+  filter: brightness(0.6);
+}
+
+.teddy-hop-flip {
+  position: absolute;
+  inset: 0;
+}
+
+.teddy-hop-face {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s ease;
+}
+
+.teddy-hop-face-front {
+  opacity: 1;
+}
+
+.teddy-hop-face-back {
+  opacity: 0;
+}
+
+.teddy-hop-option:hover .teddy-hop-face-front {
+  opacity: 0;
+}
+
+.teddy-hop-option:hover .teddy-hop-face-back {
+  opacity: 1;
+}
+
+.teddy-hop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.teddy-hop-label {
+  position: relative;
+  z-index: 1;
+  padding: 0.6rem 0.9rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.teddy-hop-icon {
+  font-size: 1.35rem;
+}
+
+.teddy-hop-info {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+.teddy-hop-main {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.teddy-hop-subtitle {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.teddy-hop-option--active .teddy-hop-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teddy-hop-next-btn {
+  margin-top: 0.25rem;
+}
+
+.teddy-hop-intro-overlay {
+  cursor: default;
+}
+
+.teddy-hop-intro-box .popup-emoji {
+  font-size: 3rem;
+}
+
+.teddy-verse-modal-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b22222;
+}
+
+.teddy-verse-modal-arrow-left {
+  left: -22px;
+}
+
+.teddy-verse-modal-arrow-right {
+  right: -22px;
+}
+
+@media (max-width: 768px) {
+  .teddy-verse-modal-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .teddy-verse-options {
+    height: 300px;
+  }
+
+  .teddy-verse-option--active {
+    flex: 3;
+  }
+}
+
+.teddy-reveal-game {
+  width: 92%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.teddy-reveal-token {
+  width: 100%;
+  border-radius: 18px;
+  border: 2px dashed rgba(210, 180, 140, 0.7);
+  background: rgba(255, 248, 240, 0.8);
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.teddy-reveal-token-emoji {
+  font-size: 1.4rem;
+}
+
+.teddy-reveal-token-text {
+  font-size: clamp(0.9rem, 2.1vw, 1.05rem);
+  color: rgba(44, 24, 16, 0.9);
+}
+
+.teddy-reveal-token--unlocked {
+  border-style: solid;
+  background: linear-gradient(135deg, rgba(255, 228, 225, 0.95), rgba(255, 182, 193, 0.95));
+}
+
+.teddy-btn-disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Teddy End */
+.teddy-end {
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.teddy-end-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.teddy-end-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 1px 4px rgba(255,248,240,0.6);
+}
+
+.teddy-end-sub {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.teddy-end .teddy-btn-outline {
+  flex-shrink: 0;
+}
+
+.teddy-end-game {
+  width: 92%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.teddy-end-token {
+  width: 100%;
+  border-radius: 18px;
+  border: 2px dashed rgba(210, 180, 140, 0.7);
+  background: rgba(255, 248, 240, 0.9);
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.teddy-end-token-emoji {
+  font-size: 1.4rem;
+}
+
+.teddy-end-token-text {
+  font-size: clamp(0.9rem, 2.1vw, 1.05rem);
+  color: rgba(44, 24, 16, 0.9);
+}
+
+.teddy-end-token--unlocked {
+  border-style: solid;
+  background: linear-gradient(135deg, rgba(255, 228, 225, 0.95), rgba(255, 182, 193, 0.95));
+}
+
+.teddy-end-whats-next-btn {
+  margin-bottom: 0.5rem;
+}
+
+/* Teddy photo screen – show real-life teddy image */
+.teddy-photo {
+  align-items: center;
+}
+
+.teddy-photo-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.4rem, 3.6vw, 2rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 0.35rem 0;
+}
+
+.teddy-photo-sub {
+  font-size: clamp(0.95rem, 2.3vw, 1.15rem);
+  color: rgba(44, 24, 16, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.teddy-photo-image-wrap {
+  width: 92%;
+  max-width: 360px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(92, 52, 24, 0.45);
+  margin-bottom: 1.75rem;
+  border: 3px solid rgba(210, 180, 140, 0.7);
+}
+
+.teddy-photo-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.teddy-countdown {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teddy-countdown-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 248, 240, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.teddy-countdown-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--pink) 0deg,
+    var(--pink-dark) 120deg,
+    rgba(255, 228, 225, 0.6) 240deg,
+    rgba(255, 248, 240, 0.9) 360deg
+  );
+  animation: spin 3s linear infinite;
+  z-index: 0;
+}
+
+.teddy-countdown-ring::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: rgba(255, 248, 240, 0.98);
+  z-index: 0;
+}
+
+.teddy-countdown-number {
+  position: relative;
+  font-weight: 800;
+  color: #b22222;
+  font-size: 1.1rem;
+  z-index: 1;
+}
+
+.teddy-countdown-text {
+  font-size: 0.95rem;
+  color: rgba(44, 24, 16, 0.9);
+}
+
+.teddy-apology-overlay {
+  cursor: pointer;
+}
+
+.teddy-apology-box .popup-emoji {
+  font-size: 3rem;
+}
+
+.teddy-apology-box .popup-text strong {
+  color: var(--pink-dark);
+}
+
+.teddy-apology-warning {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  color: var(--pink-dark);
+}
+
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.popup-btn-secondary {
+  background: white;
+  color: var(--pink-dark);
+  border: 1px solid rgba(233, 30, 99, 0.4);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Teddy real-world teddy screen */
+.teddy-real {
+  align-items: center;
+}
+
+.teddy-real-title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 1.25rem 0;
+  max-width: 460px;
+}
+
+.teddy-real-reveal-btn {
+  margin-bottom: 1.5rem;
+}
+
+.teddy-real-image-wrap {
+  width: 92%;
+  max-width: 360px;
+  border-radius: 24px;
+  overflow: visible;
+  box-shadow: 0 16px 45px rgba(92, 52, 24, 0.45);
+  border: 3px solid rgba(210, 180, 140, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.teddy-real-flip {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+}
+
+.teddy-real-image-wrap:hover .teddy-real-flip {
+}
+
+.teddy-real-face {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.4s ease;
+}
+
+.teddy-real-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.teddy-real-front {
+  z-index: 2;
+  opacity: 1;
+}
+
+.teddy-real-backcard {
+  background: linear-gradient(160deg, #ffe4e1 0%, #ffc0cb 40%, #ffb6c1 100%);
+  padding: 1.4rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.55rem;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 14px 30px rgba(0, 0, 0, 0.18);
+  animation: teddyCardFloat 6s ease-in-out infinite;
+}
+
+.teddy-real-image-wrap--canflip:hover .teddy-real-front {
+  opacity: 0;
+}
+
+.teddy-real-image-wrap--canflip:hover .teddy-real-backcard {
+  opacity: 1;
+}
+
+.teddy-real-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  max-width: 460px;
+}
+
+.teddy-real-caption {
+  font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  color: rgba(44, 24, 16, 0.95);
+  font-weight: 700;
+}
+
+.teddy-real-line {
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  color: rgba(44, 24, 16, 0.9);
+}
+
+.teddy-real-back-line {
+  font-size: clamp(0.9rem, 2.1vw, 1.05rem);
+  color: rgba(44, 24, 16, 0.95);
+  line-height: 1.5;
+}
+
+.teddy-real-backcard .teddy-real-back-line:first-child {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+  font-weight: 600;
+}
+
+.teddy-real-backcard .teddy-real-back-line:last-child {
+  font-style: italic;
+}
+
+@keyframes teddyCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 /* Sweet Memories frame on Chocolate End */
 .sweet-memories-frame {
   width: 92%;
@@ -698,11 +1894,11 @@
 }
 
 .teddy-intro {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 12px 40px rgba(233, 30, 99, 0.25);
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+  /* border-radius: 24px; */
+  /* box-shadow: 0 12px 32px rgba(92, 52, 24, 0.3); */
   margin-bottom: 2rem;
   animation: bounce 2s ease-in-out infinite;
   display: block;
