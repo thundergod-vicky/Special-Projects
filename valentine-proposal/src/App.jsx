@@ -29,6 +29,12 @@ import {
   TeddyEnd,
 } from './screens/TeddyDay/index.js'
 import {
+  PromiseIntro,
+  PromiseVows,
+  PromiseMemories,
+  PromiseEnd,
+} from './screens/PromiseDay/index.js'
+import {
   ProposeIntro,
   FindHearts,
   Envelope,
@@ -56,7 +62,7 @@ export default function App() {
   const [showLetter, setShowLetter] = useState(false)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showBookCover, setShowBookCover] = useState(true)
-  const [homeActiveIndex, setHomeActiveIndex] = useState(3) /* Teddy Day = index 3 (base card) */
+  const [homeActiveIndex, setHomeActiveIndex] = useState(4) /* Promise Day = index 4 (main card) */
   const [chocolateMessageIndex, setChocolateMessageIndex] = useState(0)
   const [chocolateBoxOpen, setChocolateBoxOpen] = useState(false)
   const [openedSweetMemories, setOpenedSweetMemories] = useState([false, false, false, false])
@@ -125,12 +131,14 @@ export default function App() {
   const goToIntro = useCallback(() => setScreen('intro'), [])
   const goToChocolate = useCallback(() => setScreen('chocolateIntro'), [])
   const goToTeddy = useCallback(() => setScreen('teddyIntro'), [])
+  const goToPromise = useCallback(() => setScreen('promiseIntro'), [])
 
   const openDayFromHome = useCallback((dayId) => {
     if (dayId === 'propose') goToIntro()
     else if (dayId === 'chocolate') goToChocolate()
     else if (dayId === 'teddy') goToTeddy()
-  }, [goToIntro, goToChocolate, goToTeddy])
+    else if (dayId === 'promise') goToPromise()
+  }, [goToIntro, goToChocolate, goToTeddy, goToPromise])
 
   const openFindHearts = useCallback(() => {
     setGameSpots(createGameSpots())
@@ -396,6 +404,28 @@ export default function App() {
         )}
         {screen === 'teddyEnd' && (
           <TeddyEnd onBackToHome={() => setScreen('home')} />
+        )}
+
+        {screen === 'promiseIntro' && (
+          <PromiseIntro
+            onBack={() => setScreen('home')}
+            onNext={() => setScreen('promiseVows')}
+          />
+        )}
+        {screen === 'promiseVows' && (
+          <PromiseVows
+            onBack={() => setScreen('promiseIntro')}
+            onNext={() => setScreen('promiseMemories')}
+          />
+        )}
+        {screen === 'promiseMemories' && (
+          <PromiseMemories
+            onBack={() => setScreen('promiseVows')}
+            onNext={() => setScreen('promiseEnd')}
+          />
+        )}
+        {screen === 'promiseEnd' && (
+          <PromiseEnd onBackToHome={() => setScreen('home')} />
         )}
 
         {screen === 'intro' && (

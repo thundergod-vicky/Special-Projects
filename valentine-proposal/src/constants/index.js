@@ -29,7 +29,7 @@ export const VALENTINE_WEEK_DAYS = [
   { id: 'propose', label: 'Propose Day', emoji: '💍', date: 'Feb 8', active: true },
   { id: 'chocolate', label: 'Chocolate Day', emoji: '🍫', date: 'Feb 9', active: true },
   { id: 'teddy', label: 'Teddy Day', emoji: '🐻', date: 'Feb 10', active: true },
-  { id: 'promise', label: 'Promise Day', emoji: '🤝', date: 'Feb 11', active: false },
+  { id: 'promise', label: 'Promise Day', emoji: '🤝', date: 'Feb 11', active: true },
   { id: 'hug', label: 'Hug Day', emoji: '🤗', date: 'Feb 12', active: false },
   { id: 'kiss', label: 'Kiss Day', emoji: '💋', date: 'Feb 13', active: false },
 ]
