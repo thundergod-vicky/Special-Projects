@@ -49,8 +49,14 @@ const PROMISE_MEMORIES = [
   { src: img21, title: 'Forever kind of love', description: 'And today it’s you—fully mine, completely mine. My baby, my sweetheart, my everything.' },
 ]
 
+// Initial order so the first memory ("The day we first met") is the opening card (2nd slot shows content)
+const INITIAL_ITEMS = [
+  PROMISE_MEMORIES[PROMISE_MEMORIES.length - 1],
+  ...PROMISE_MEMORIES.slice(0, -1),
+]
+
 export default function PromiseMemories({ onBack, onNext }) {
-  const [items, setItems] = useState(PROMISE_MEMORIES)
+  const [items, setItems] = useState(INITIAL_ITEMS)
   const [lightboxIndex, setLightboxIndex] = useState(null)
 
   const handleNext = () => {
