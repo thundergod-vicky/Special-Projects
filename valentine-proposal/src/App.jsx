@@ -45,6 +45,15 @@ import {
   Celebration,
   Certificate,
 } from './screens/ProposeDay/index.js'
+import {
+  ValentineIntro,
+  LoveTimeline,
+  ValentineReason,
+  FinalDeclaration,
+  ValentineProposal,
+  ValentineQuestion,
+  HeartfeltLetter,
+} from './screens/ValentineDay/index.js'
 
 export default function App() {
   const [screen, setScreen] = useState('home')
@@ -62,7 +71,7 @@ export default function App() {
   const [showLetter, setShowLetter] = useState(false)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showBookCover, setShowBookCover] = useState(true)
-  const [homeActiveIndex, setHomeActiveIndex] = useState(4) /* Promise Day = index 4 (main card) */
+  const [homeActiveIndex, setHomeActiveIndex] = useState(7) /* Valentine's Day = index 7 */
   const [chocolateMessageIndex, setChocolateMessageIndex] = useState(0)
   const [chocolateBoxOpen, setChocolateBoxOpen] = useState(false)
   const [openedSweetMemories, setOpenedSweetMemories] = useState([false, false, false, false])
@@ -72,6 +81,8 @@ export default function App() {
     width: typeof window !== 'undefined' ? Math.min(window.innerWidth - 48, 520) : 480,
     height: typeof window !== 'undefined' ? Math.min(window.innerHeight - 140, 720) : 600,
   }))
+  const audioRef = useRef(null)
+  const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
     if (!showLetter) return
@@ -138,6 +149,12 @@ export default function App() {
     else if (dayId === 'chocolate') goToChocolate()
     else if (dayId === 'teddy') goToTeddy()
     else if (dayId === 'promise') goToPromise()
+    else if (dayId === 'valentine') {
+      setScreen('valentineProposal')
+      if (audioRef.current) {
+        audioRef.current.play().catch(e => console.log("Audio play failed:", e))
+      }
+    }
   }, [goToIntro, goToChocolate, goToTeddy, goToPromise])
 
   const openFindHearts = useCallback(() => {
@@ -472,7 +489,61 @@ export default function App() {
         {screen === 'certificate' && (
           <Certificate onOpenLetter={openLetter} />
         )}
+
+        {screen === 'valentineProposal' && (
+          <ValentineProposal
+            onNext={() => setScreen('valentineQuestion')}
+          />
+        )}
+        {screen === 'valentineQuestion' && (
+          <ValentineQuestion
+            onFinished={() => setScreen('valentineIntro')}
+          />
+        )}
+        {screen === 'valentineIntro' && (
+          <ValentineIntro
+            onBack={() => setScreen('home')}
+            onNext={() => setScreen('valentineReason')}
+          />
+        )}
+        {screen === 'valentineReason' && (
+          <ValentineReason
+            onBack={() => setScreen('valentineIntro')}
+            onNext={() => setScreen('finalDeclaration')}
+          />
+        )}
+        {screen === 'finalDeclaration' && (
+          <FinalDeclaration
+            onBack={() => setScreen('valentineReason')}
+            onYes={() => setScreen('heartfeltLetter')}
+          />
+        )}
+        {screen === 'heartfeltLetter' && (
+          <HeartfeltLetter onBackToHome={() => setScreen('home')} />
+        )}
       </AnimatePresence>
+
+      <audio
+        ref={audioRef}
+        src="/perfect.mp3"
+        loop
+        style={{ display: 'none' }}
+      />
+      
+      {screen !== 'home' && (
+        <button 
+          className="music-toggle-btn"
+          onClick={() => {
+            if (audioRef.current) {
+              if (isMuted) audioRef.current.play()
+              else audioRef.current.pause()
+              setIsMuted(!isMuted)
+            }
+          }}
+        >
+          {isMuted ? '🔇' : '🎵'}
+        </button>
+      )}
 
       {/* Book – opens to cover first (one page), then flip book */}
       {showLetter && (

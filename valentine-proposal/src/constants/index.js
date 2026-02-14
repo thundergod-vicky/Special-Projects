@@ -32,6 +32,7 @@ export const VALENTINE_WEEK_DAYS = [
   { id: 'promise', label: 'Promise Day', emoji: '🤝', date: 'Feb 11', active: true },
   { id: 'hug', label: 'Hug Day', emoji: '🤗', date: 'Feb 12', active: false },
   { id: 'kiss', label: 'Kiss Day', emoji: '💋', date: 'Feb 13', active: false },
+  { id: 'valentine', label: "Valentine's Day", emoji: '💝', date: 'Feb 14', active: true },
 ]
 
 export const REASONS = [
