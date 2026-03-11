@@ -45,8 +45,7 @@ import {
   Celebration,
   Certificate,
 } from './screens/ProposeDay/index.js'
-import {
-  ValentineIntro,
+import { ValentineIntro,
   LoveTimeline,
   ValentineReason,
   FinalDeclaration,
@@ -54,8 +53,13 @@ import {
   ValentineQuestion,
   HeartfeltLetter,
 } from './screens/ValentineDay/index.js'
+import PasswordScreen from './screens/PasswordScreen.jsx'
+import PortalSelection from './screens/PortalSelection.jsx'
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [appArea, setAppArea] = useState(null)
+  
   const [screen, setScreen] = useState('home')
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 })
   const [reasonsNoPosition, setReasonsNoPosition] = useState({ x: 0, y: 0 })
@@ -317,10 +321,110 @@ export default function App() {
     }, 500)
   }, [])
 
+  if (!isAuthenticated) {
+    return <PasswordScreen onUnlock={() => setIsAuthenticated(true)} />
+  }
+
+  if (!appArea) {
+    return <PortalSelection onSelect={(area) => setAppArea(area)} onBack={() => setIsAuthenticated(false)} />
+  }
+
+  if (appArea === 'multiverse') {
+    return (
+      <div className="screen" style={{ background: '#0a0a0a', color: '#fff', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        {/* Animated Background */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.2) 0%, #000 60%)', zIndex: 0 }} />
+        
+        {/* Floating particles for multiverse */}
+        {Array.from({ length: 20 }).map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: ['-10vh', '110vh'],
+              x: [`${Math.random() * 100}vw`, `${Math.random() * 100}vw`],
+              opacity: [0, 0.5, 0],
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: `${Math.random() * 4 + 1}px`,
+              height: `${Math.random() * 4 + 1}px`,
+              borderRadius: '50%',
+              background: '#c084fc',
+              boxShadow: '0 0 10px 2px rgba(192, 132, 252, 0.5)',
+              zIndex: 1,
+            }}
+          />
+        ))}
+
+        <motion.button
+          whileHover={{ scale: 1.05, background: 'rgba(139, 92, 246, 0.3)' }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setAppArea(null)}
+          style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 20, padding: '0.8rem 1.5rem', borderRadius: '30px', border: '1px solid rgba(139, 92, 246, 0.5)', background: 'rgba(139, 92, 246, 0.1)', color: '#fff', cursor: 'pointer', fontFamily: '"Quicksand", sans-serif', fontWeight: 700, backdropFilter: 'blur(10px)', transition: 'background 0.3s', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}
+        >
+          <span style={{ fontSize: '1.2rem' }}>👈</span> Return to Nexus
+        </motion.button>
+
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, type: 'spring', bounce: 0.5 }} style={{ zIndex: 10 }}>
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} style={{ fontSize: '6rem', filter: 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.6))', marginBottom: '1rem' }}>
+            🌌
+          </motion.div>
+          <h1 style={{ fontFamily: '"Quicksand", sans-serif', fontSize: 'clamp(3rem, 8vw, 5rem)', marginBottom: '1rem', background: 'linear-gradient(to right, #8b5cf6, #3b82f6, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.5))', fontWeight: 900 }}>
+            Multiverse
+          </h1>
+          <p style={{ fontSize: '1.4rem', opacity: 0.85, marginBottom: '2rem', fontWeight: 500 }}>
+            The secrets of this realm are yet to be revealed... ✨
+          </p>
+        </motion.div>
+      </div>
+    )
+  }
+
   return (
     <>
       <HeartsBackground />
       <Confetti active={confetti || letterConfetti} />
+
+      {/* Floating back button for Valentine's Days Area */}
+      {screen === 'home' && appArea === 'valentine' && (
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          whileHover={{ scale: 1.05, background: 'rgba(255, 255, 255, 0.3)' }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setAppArea(null)}
+          style={{ 
+            position: 'absolute', 
+            top: '1.5rem', 
+            left: '1.5rem', 
+            zIndex: 9999, 
+            padding: '0.8rem 1.5rem', 
+            borderRadius: '50px', 
+            border: '1px solid rgba(255, 255, 255, 0.4)', 
+            background: 'rgba(0, 0, 0, 0.25)', 
+            color: '#fff', 
+            cursor: 'pointer', 
+            fontFamily: '"Quicksand", sans-serif', 
+            fontWeight: 700, 
+            backdropFilter: 'blur(10px)', 
+            boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            fontSize: '1.05rem',
+            transition: 'background 0.3s'
+          }}
+        >
+          <span style={{ fontSize: '1.3rem' }}>🌌</span> Switch Universe
+        </motion.button>
+      )}
 
       <AnimatePresence mode="wait">
         {screen === 'home' && (
